@@ -1,0 +1,16 @@
+import server
+
+server.app.config['TESTING'] = True
+client = server.app.test_client()
+
+
+def test_unknow_email():
+    reponse = client.post('/showSummary',
+                           data={'email': 'admin@bob.com'})
+    assert reponse
+
+
+def test_empty_email():
+    reponse = client.post('/showSummary',
+                           data={'email': ''})
+    assert reponse
