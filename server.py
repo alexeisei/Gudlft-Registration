@@ -1,5 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+from datetime import datetime
 
 
 def loadClubs():
@@ -11,6 +12,9 @@ def loadClubs():
 def loadCompetitions():
     with open('competitions.json') as comps:
          listOfCompetitions = json.load(comps)['competitions']
+         for comp in listOfCompetitions:
+            if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") < datetime.now():
+                comp['finish'] = True
          return listOfCompetitions
 
 
@@ -24,9 +28,14 @@ clubs = loadClubs()
 def index():
     return render_template('index.html')
 
+
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
+    try:
+        club = [club for club in clubs if club['email'] == request.form['email']][0]
+    except IndexError:
+        flash("Sorry, that email wasn't found.")
+        return redirect(url_for('index'))
     return render_template('welcome.html',club=club,competitions=competitions)
 
 
@@ -37,7 +46,7 @@ def book(competition,club):
     if foundClub and foundCompetition:
         return render_template('booking.html',club=foundClub,competition=foundCompetition)
     else:
-        flash("Something went wrong-please try again")
+        flash("Something went wrong , please try again")
         return render_template('welcome.html', club=club, competitions=competitions)
 
 
@@ -55,7 +64,9 @@ def purchasePlaces():
     return render_template('welcome.html', club=club, competitions=competitions)
 
 
-# TODO: Add route for points display
+@app.route('/displayclubsPoints')
+def displayclubsPoints():
+    return render_template('clubstable.html', clubs=clubs)
 
 
 @app.route('/logout')
