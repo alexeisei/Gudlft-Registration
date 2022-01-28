@@ -1,5 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+from datetime import datetime
 
 
 def loadClubs():
@@ -11,6 +12,9 @@ def loadClubs():
 def loadCompetitions():
     with open('competitions.json') as comps:
          listOfCompetitions = json.load(comps)['competitions']
+         for comp in listOfCompetitions:
+            if datetime.strptime(comp['date'], "%Y-%m-%d %H:%M:%S") < datetime.now():
+                comp['finish'] = True
          return listOfCompetitions
 
 
