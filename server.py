@@ -27,7 +27,7 @@ def index():
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
     club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html',club=club,competitions=competitions)
+    return render_template('welcome.html',club=club,competitions=competitions, clubs=clubs)
 
 
 @app.route('/book/<competition>/<club>')
@@ -48,10 +48,12 @@ def purchasePlaces():
     placesRequired = int(request.form['places'])
     competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
     flash('Great-booking complete!')
-    return render_template('welcome.html', club=club, competitions=competitions)
+    return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
 
-# TODO: Add route for points display
+@app.route('/displayclubsPoints')
+def displayclubsPoints():
+    return render_template('clubstable.html', clubs=clubs)
 
 
 @app.route('/logout')
