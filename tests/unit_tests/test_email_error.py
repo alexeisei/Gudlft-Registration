@@ -6,7 +6,7 @@ client = server.app.test_client()
 
 def test_unknown_email():
     reponse = client.post('/showSummary',
-                           data={'email': 'admin@bob.com'})
+                           data={'email': 'random@test.com'})
     assert reponse
 
 
@@ -23,6 +23,6 @@ def test_known_email():
 
 def test_not_a_email():
     reponse = client.post('/showSummary',
-                           data={'email': '1585d456qef'})
+                           data={'email': '12345abcd'})
     assert reponse
     
