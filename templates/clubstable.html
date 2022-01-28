@@ -1,0 +1,12 @@
+
+<h3>Clubs Board:</h3>
+
+<ul>
+	{% for club in clubs %}
+		<li>
+			Club name : {{club['name']}}<br>
+			Club Points : {{club['points']}}
+		</li>
+		<hr />
+	{% endfor %}
+</ul>
