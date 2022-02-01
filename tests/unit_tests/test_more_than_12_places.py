@@ -42,5 +42,3 @@ def test_12_places(client):
                                 'places': 3,
                                })
     assert result.status_code == 200
-
-    
