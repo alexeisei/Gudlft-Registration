@@ -36,7 +36,7 @@ def showSummary():
     except IndexError:
         flash("Sorry, that email wasn't found.")
         return redirect(url_for('index'))
-    return render_template('welcome.html',club=club,competitions=competitions)
+    return render_template('welcome.html',club=club,competitions=competitions, clubs=clubs)
 
 
 @app.route('/book/<competition>/<club>')
@@ -66,7 +66,7 @@ def purchasePlaces():
         else:
             flash("Sorry, you don't have enough points")
             
-    return render_template('welcome.html', club=club, competitions=competitions)
+    return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
 
 @app.route('/displayclubsPoints')
